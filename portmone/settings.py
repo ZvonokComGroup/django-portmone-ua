@@ -1,0 +1,7 @@
+
+
+PAYEE_ID = ''
+SHOP_SITE_ID = ''
+SUCCESS_URL = ''
+FAILURE_URL = ''
+LOGIN = ''

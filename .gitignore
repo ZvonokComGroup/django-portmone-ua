@@ -1,0 +1,9 @@
+build/
+dist/
+*.pyc
+.project
+.pydevproject
+.settings/
+*.egg-info/
+*.wpr
+*.wpu
