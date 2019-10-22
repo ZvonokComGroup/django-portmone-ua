@@ -17,4 +17,6 @@ SUCCESS_URL = getattr(settings, 'PORTMONE_SUCCESS_URL',
 FAILURE_URL = getattr(settings, 'PORTMONE_FAIL_URL',
                       lazy(lambda: get_url('intellectmoney-fail'), str),
                       )
-LOGIN = getattr(settings, 'PORTMONE_LOGIN')
+LOGIN = getattr(settings, 'PORTMONE_LOGIN', '')
+CHECK_IP_ENABLED = getattr(settings, 'PORTMONE_CHECK_IP_ENABLED', True)
+IP_LIST = getattr(settings, 'PORTMONE_IP_LIST', [])

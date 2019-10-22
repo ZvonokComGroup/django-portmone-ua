@@ -2,7 +2,7 @@ import decimal
 import logging
 from xml.etree import ElementTree as ET
 
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -25,8 +25,12 @@ def authorize_result(request):
     See documentation:
     https://docs.portmone.com.ua/docs/en/PaymentGatewayEng/#83-notification-of-the-online-store-server-about-the-authorization-result
     '''
-    form = ResultForm(request.POST)
 
+    ip = request.META['REMOTE_ADDR']
+    if settings.CHECK_IP_ENABLED and ip not in settings.IP_LIST:
+        raise Http404
+
+    form = ResultForm(request.POST)
     if form.is_valid():
         data_string = form.cleaned_data['data']
         try:
