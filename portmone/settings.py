@@ -12,10 +12,10 @@ URL = getattr(settings, 'PORTMONE_GATEWAY_URL', 'https://www.portmone.com.ua/gat
 PAYEE_ID = getattr(settings, 'PORTMONE_PAYEE_ID')
 SHOP_SITE_ID = getattr(settings, 'PORTMONE_SHOP_SITE_ID')
 SUCCESS_URL = getattr(settings, 'PORTMONE_SUCCESS_URL',
-                      lazy(lambda: get_url('intellectmoney-success'), str),
+                      lazy(lambda: get_url('portmone-success'), str),
                       )
 FAILURE_URL = getattr(settings, 'PORTMONE_FAIL_URL',
-                      lazy(lambda: get_url('intellectmoney-fail'), str),
+                      lazy(lambda: get_url('portmone-fail'), str),
                       )
 LOGIN = getattr(settings, 'PORTMONE_LOGIN', '')
 CHECK_IP_ENABLED = getattr(settings, 'PORTMONE_CHECK_IP_ENABLED', True)
