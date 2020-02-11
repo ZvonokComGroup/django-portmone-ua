@@ -8,8 +8,8 @@ def getBodyRequest(description: str, shopOrderNumber: str, billAmount: decimal.D
     return {
         "paymentTypes": {"card": "Y", "portmone": "N", "token": "N", "masterpass": "Y",
                          "visacheckout": "Y", "createtokenonly": "N"},
-        "priorityPaymentTypes": {"card": "1", "portmone": "2", "qr": "0", "masterpass": "0",
-                                 "token": "0", "visacheckout": "1", "createtokenonly": "0"},
+        "priorityPaymentTypes": {"card": "1", "portmone": "0", "qr": "0", "masterpass": "0",
+                                 "token": "0", "visacheckout": "0", "createtokenonly": "0"},
         "payee": {"payeeId": settings.PAYEE_ID,
                   "shopSiteId": settings.SHOP_SITE_ID,
                   "login": settings.LOGIN,
