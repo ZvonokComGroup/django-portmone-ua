@@ -6,8 +6,8 @@ from portmone import settings
 def getBodyRequest(description: str, shopOrderNumber: str, billAmount: decimal.Decimal,
                    billCurrency: str, emailAddress: str, lang: str = 'uk') -> dict:
     return {
-        "paymentTypes": {"card": "Y", "portmone": "N", "token": "N", "masterpass": "Y",
-                         "visacheckout": "Y", "createtokenonly": "N"},
+        "paymentTypes": {"card": "Y", "portmone": "N", "token": "N", "masterpass": "N",
+                         "visacheckout": "N", "createtokenonly": "N"},
         "priorityPaymentTypes": {"card": "1", "portmone": "0", "qr": "0", "masterpass": "0",
                                  "token": "0", "visacheckout": "0", "createtokenonly": "0"},
         "payee": {"payeeId": settings.PAYEE_ID,
