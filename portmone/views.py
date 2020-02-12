@@ -18,6 +18,17 @@ NO_VALID_XML_MSG = 'No valid xml data'
 OTHER_NO_VALID = 'Validation Error'
 
 
+def get_ip_address(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+    return ip
+
+
 @csrf_exempt
 @require_POST
 def authorize_result(request):
@@ -26,7 +37,7 @@ def authorize_result(request):
     https://docs.portmone.com.ua/docs/en/PaymentGatewayEng/#83-notification-of-the-online-store-server-about-the-authorization-result
     '''
 
-    ip = request.META['REMOTE_ADDR']
+    ip = get_ip_address(request)
     if settings.CHECK_IP_ENABLED and ip not in settings.IP_LIST:
         raise Http404
 
