@@ -14,8 +14,9 @@ from portmone.signals import result_authorized
 
 logger = logging.getLogger('portmone')
 
-NO_VALID_XML_MSG = 'No valid xml data'
-OTHER_NO_VALID = 'Validation Error'
+NO_VALID_XML_MSG = '<?xml version="1.0" encoding="UTF-8"?><RESULT><ERROR_CODE>1</ERROR_CODE><REASON>No valid xml data</REASON>'
+OTHER_NO_VALID = '<?xml version="1.0" encoding="UTF-8"?><RESULT><ERROR_CODE>2</ERROR_CODE><REASON>Validation Error</REASON>'
+OK_MSG = '<?xml version="1.0" encoding="UTF-8"?><RESULT><ERROR_CODE>0</ERROR_CODE><REASON>OK</REASON>'
 
 
 def get_ip_address(request):
@@ -48,40 +49,40 @@ def authorize_result(request):
             root = ET.fromstring(data_string.strip())
         except ET.ParseError as exc:
             logger.warning(exc)
-            return HttpResponse(NO_VALID_XML_MSG, status=400)
+            return HttpResponse(NO_VALID_XML_MSG, status=400, content_type='text/xml')
         code_el = root.find('./BILL/PAYEE/CODE')
         if code_el is None:
             logger.warning('PAYEE CODE tag is not defined')
-            return HttpResponse(NO_VALID_XML_MSG, status=400)
+            return HttpResponse(NO_VALID_XML_MSG, status=400, content_type='text/xml')
         if settings.PAYEE_ID != code_el.text.strip():
             logger.warning('PAYEE CODE is incorrect')
-            return HttpResponse(OTHER_NO_VALID, status=400)
+            return HttpResponse(OTHER_NO_VALID, status=400, content_type='text/xml')
         bill_number_el = root.find('./BILL/BILL_NUMBER')  # It is equal to the shop_order_number
         if bill_number_el is None:
             logger.warning('BILL NUMBER tag is not defined')
-            return HttpResponse(NO_VALID_XML_MSG, status=400)
+            return HttpResponse(NO_VALID_XML_MSG, status=400, content_type='text/xml')
         shopOrderNumber = bill_number_el.text.strip()
         try:
             payment = PortmonePayment.objects.get(shopOrderNumber=shopOrderNumber)
         except PortmonePayment.DoesNotExist:
             logger.warning(f'PortmonePayment with shopOrderNumber={shopOrderNumber} dnot exist')
-            return HttpResponse('OK')
+            return HttpResponse(OK_MSG, content_type='text/xml')
         payed_amount_el = root.find('./BILL/PAYED_AMOUNT')
         if payed_amount_el is None:
             logger.warning('PAYED AMOUNT tag is not defined')
-            return HttpResponse(NO_VALID_XML_MSG, status=400)
+            return HttpResponse(NO_VALID_XML_MSG, status=400, content_type='text/xml')
         try:
             payedAmount = decimal.Decimal(payed_amount_el.text.strip())
         except decimal.InvalidOperation as exc:
             logger.warning('payedAmount is not decimal')
-            return HttpResponse(OTHER_NO_VALID, status=400)
+            return HttpResponse(OTHER_NO_VALID, status=400, content_type='text/xml')
         result_authorized.send(
             sender=payment, shopOrderNumber=shopOrderNumber, payedAmount=payedAmount,
         )
-        return HttpResponse('OK')
+        return HttpResponse(OK_MSG, content_type='text/xml')
 
     else:
-        return HttpResponse('Form is not valid', status=400)
+        return HttpResponse(NO_VALID_XML_MSG, status=400, content_type='text/xml')
 
 
 @csrf_exempt
