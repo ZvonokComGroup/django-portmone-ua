@@ -14,9 +14,9 @@ from portmone.signals import result_authorized
 
 logger = logging.getLogger('portmone')
 
-NO_VALID_XML_MSG = '<?xml version="1.0" encoding="UTF-8"?><RESULT><ERROR_CODE>1</ERROR_CODE><REASON>No valid xml data</REASON>'
-OTHER_NO_VALID = '<?xml version="1.0" encoding="UTF-8"?><RESULT><ERROR_CODE>2</ERROR_CODE><REASON>Validation Error</REASON>'
-OK_MSG = '<?xml version="1.0" encoding="UTF-8"?><RESULT><ERROR_CODE>0</ERROR_CODE><REASON>OK</REASON>'
+NO_VALID_XML_MSG = '<?xml version="1.0" encoding="UTF-8"?><RESULT><ERROR_CODE>1</ERROR_CODE><REASON>No valid xml data</REASON></RESULT>'
+OTHER_NO_VALID = '<?xml version="1.0" encoding="UTF-8"?><RESULT><ERROR_CODE>2</ERROR_CODE><REASON>Validation Error</REASON></RESULT>'
+OK_MSG = '<?xml version="1.0" encoding="UTF-8"?><RESULT><ERROR_CODE>0</ERROR_CODE><REASON>OK</REASON></RESULT>'
 
 
 def get_ip_address(request):
