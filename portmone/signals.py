@@ -1,3 +1,4 @@
 from django.dispatch import Signal
 
-result_authorized = Signal(providing_args=["orderId", "payedAmount"])
+# providing_args: "orderId", "payedAmount"
+result_authorized = Signal()
